@@ -3,9 +3,15 @@ import {Link} from 'react-router-dom';
 
 
 import '../styles/btns.css'; 
+import { connect } from 'react-redux';
 
 
 class Landing extends Component {
+  componentDidMount(){
+    if (this.props.auth.isAuthenticate){
+      this.props.history.push('/dashboard')
+    }
+  }; 
   render() {
     return (
       <div className="landing">
@@ -24,6 +30,12 @@ class Landing extends Component {
     </div>
     )
   }
+}; 
+
+const mapStateToProps = state => {
+  return {
+    auth : state.auth
+  }
 }
 
-export default Landing; 
+export default connect(mapStateToProps)(Landing); 

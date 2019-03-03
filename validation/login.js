@@ -8,8 +8,13 @@ module.exports = function validateLoginInput(data) { // export validateRegister 
   data.password = !isEmpty(data.password) ? data.password : ''; // 
 
 
- // EMAILS/////////////////
- 
+  // EMAIL /////////////////////////////////////////
+
+  if (validator.isEmpty(data.password)) {
+    errors.password = 'password field is required';
+  }
+
+
   if (validator.isEmpty(data.email)) {
     errors.email = 'Email field is required';
   }
@@ -20,20 +25,9 @@ module.exports = function validateLoginInput(data) { // export validateRegister 
   }
 
 
-  // PASSWORD/////////////////
-  if (validator.isEmpty(data.password)) {
-    errors.password = 'password field is required';
-  }
-
-  if (!validator.isLength(data.password, {
-      min: 6,
-      max: 13
-    })) {
-    errors.password = 'password must be atleast 6 characters';
-  }
 
   return {
     errors,
     isValid: isEmpty(errors)
   }
-}
+};

@@ -1,11 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import TextFeildGroup from '../commonFeilds/TextFeildGroup'; 
+
+import {connect} from 'react-redux'; 
+import {loginUser} from '../../actions/authAction'; 
+
 
 class Login extends Component {
   state = {
-    name: '',
     email: '',
+    password: '',
     errors: {}
   }
+
+  componentDidMount(){
+    if (this.props.auth.isAuthenticate){
+      this.props.history.push('/dashboard')
+    }
+  }; 
 
   onChange = (e) => {
     this.setState({
@@ -13,20 +24,34 @@ class Login extends Component {
     }); 
   }
 
+  componentWillReceiveProps(nextProps){ // it's runs when our components recive new props 
+  if (nextProps.auth.isAuthenticate){
+    this.props.history.push('/dashboard')
+  }
+  if(nextProps.errors){
+   this.setState({ // set nextProps.errors to local state 
+     errors: nextProps.errors
+   }); 
+  }; 
+ }
+
   onSubmit = e => {
     e.preventDefault(); 
-    const newUser = {
-      name: this.state.name,
+    const userData = {
       email: this.state.email,
+      password: this.state.password,
       errors: {}
     }
 
-    console.log(newUser); // print on console the newUser
+    console.log(userData); // print on console the userData
+
+    this.props.loginUser(userData); // fired the loginUser action with passing current user
   }
 
 
+
   render() {
-  
+  const {errors} = this.state; 
     return (
       <div className="login">
       <div className="container">
@@ -35,20 +60,25 @@ class Login extends Component {
             <h1 className="display-4 text-center">Log In</h1>
             <p className="lead text-center">Sign in to your StudentNetwork account</p>
             <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <input type="email" className="form-control form-control-lg" placeholder="Email Address"
-                 name="email"
-                 value={this.state.email}
-                 onChange={this.onChange} 
-                 />
-              </div>
-              <div className="form-group">
-                <input type="password" className="form-control form-control-lg" placeholder="Password"
-                 name="password" 
-                 value={this.state.password}
-                 onChange={this.onChange}
-                 />
-              </div>
+
+             <TextFeildGroup 
+             name="email"
+             placeholder="Email"
+             type="email"
+             value={this.state.email}
+             onChange={this.onChange}
+             error={errors.email}
+             />
+
+             <TextFeildGroup 
+             name="password"
+             placeholder="password"
+             type="password"
+             value={this.state.password}
+             onChange={this.onChange}
+             error={errors.password}
+             />
+
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </form>
           </div>
@@ -60,4 +90,14 @@ class Login extends Component {
 }
 
 
-export default Login; 
+
+const mapStateToProps = (state) => {
+  return {
+    auth : state.auth,
+    errors : state.errors
+  }
+}
+
+
+
+export default connect(mapStateToProps, {loginUser})(Login); 
