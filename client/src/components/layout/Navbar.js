@@ -3,6 +3,10 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux'; 
 
 
+
+
+
+
 // ACTIONS 
 import {logoutUser} from '../../actions/authAction' ; 
 import {clearCurrentProfile} from '../../actions/profileAction'; 
@@ -23,6 +27,9 @@ class Navbar extends Component {
 
     const logedInUserLinks = (
       <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <Link className="nav-link"  to="/dashboard"> Dashboard </Link>
+      </li>
       <li className="nav-item">
           <a href="#" onClick={this.onLogoutClick} className="nav-link"> 
             <img src={user.avatar}  

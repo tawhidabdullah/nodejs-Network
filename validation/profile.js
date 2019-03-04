@@ -41,11 +41,11 @@ module.exports = function validateProfileInput(data) { // export validateRegiste
   // FIRST check if that the url field is not empty
   // then check if wheather the url is valid or not 
 
-  if (!validator.isEmpty(data.website)) {
-    if (validator.isURL(data.website)) {
-      errors.website = 'Not a valid url'
-    }
-  }
+  // if (!validator.isEmpty(data.website)) {
+  //   if (validator.isURL(data.website)) {
+  //     errors.website = 'Not a valid url'
+  //   }
+  // }
 
   if (!validator.isEmpty(data.youtube)) {
     if (validator.isURL(data.youtube)) {

@@ -5,12 +5,11 @@ const TextFeildGroup = ({
   // props descructuring
   name,
   placeholder,
-  label,
   info,
   type,
   onChange,
   value,
-  disable,
+  disabled,
   errors
 }) => {
   return (
@@ -24,7 +23,7 @@ const TextFeildGroup = ({
         name={name}
         value={value}
         onChange={onChange}
-        disable={disable}
+        disabled={disabled}
       />
       {info && <small className="form-text text-muted" > {info} </small>}
       {errors && <div className="invalid-feedback"> {errors} </div>}

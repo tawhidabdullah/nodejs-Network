@@ -41,7 +41,7 @@ router.get('/', passport.authenticate('jwt' , {session : false}), (req, res) => 
   .then((current_user)=>{
     if(!current_user){
       errors.noProfile = 'There is no profile for the user'
-      return res.status(404).json(errors); 
+      res.status(404).json(errors); 
     }
     res.json(current_user); // send current_user to the client
   }).catch(error => {
@@ -131,14 +131,19 @@ router.post('/', passport.authenticate('jwt' , {session : false}), (req, res) =>
   if(req.body.handle) profileFields.handle = req.body.handle; 
   if(req.body.company) profileFields.company = req.body.company; 
   if(req.body.website) profileFields.website = req.body.website; 
+  if(req.body.location) profileFields.location = req.body.location; 
   if(req.body.status) profileFields.status = req.body.status; 
-  if(req.body.handle) profileFields.handle = req.body.handle; 
+  if(req.body.bio) profileFields.bio = req.body.bio; 
+  if(req.body.githubusername) profileFields.githubusername = req.body.githubusername; 
 
+ 
   // Skills => split into array
-  if(!typeof req.body.skills === 'undefined'){
+  if(req.body.skills){
     profileFields.skills = req.body.skills.split(','); 
   }
   // social 
+
+  console.log(profileFields.skills); 
   profileFields.social = {}; 
 
   // if item is in the body then fill the social object with that !
@@ -152,7 +157,7 @@ router.post('/', passport.authenticate('jwt' , {session : false}), (req, res) =>
   Profile.findOne({user : req.user}).then(profile => {
      // if we have a profile we are gonna update it 
      if(profile){
-      Profile.update({user : req.user.id}, {$set:profileFields}, {new : true})  
+      Profile.findOneAndUpdate({user : req.user.id}, {$set:profileFields}, {new : true})  
       .then((profile) => {
         res.json(profile)
       })
@@ -217,7 +222,10 @@ router.post('/experience' ,passport.authenticate('jwt', {session : false}),(req,
      profile.experience.unshift(exp); 
 
     // then finally save the experice to the database 
-    profile.save().then(profile => res.json(profile)); 
+    profile.save().then(profile => {
+      console.log(profile); 
+      res.json(profile)
+    }); 
   })
 }  )
 
@@ -249,13 +257,13 @@ router.post('/education' ,passport.authenticate('jwt', {session : false}),(req,r
      const edu = {}; 
        
    // fill that up with req.body's data
-     exp.school = req.body.school;
-     exp.degree = req.body.degree;
-     exp.fieldOfStudy = req.body.fieldOfStudy;
-     exp.from = req.body.from;
-     exp.to = req.body.to;
-     exp.current = req.body.current;
-     exp.description = req.body.description; 
+     edu.school = req.body.school;
+     edu.degree = req.body.degree;
+     edu.fieldOfStudy = req.body.fieldOfStudy;
+     edu.from = req.body.from;
+     edu.to = req.body.to;
+     edu.current = req.body.current;
+     edu.description = req.body.description; 
  
       //then unsift that experince to the database ,in the profile's education object
       profile.education.unshift(edu); 

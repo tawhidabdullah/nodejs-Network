@@ -9,7 +9,8 @@ import SelectListGroup from "../commonFeilds/SelectListGroup";
 import InputGroup from "../commonFeilds/InputGroup";
 
 // IMPORT ACTIONS
-import { createProfile } from "../../actions/profileAction";
+import { createProfile, getCurrentProfile } from "../../actions/profileAction";
+import isEmpty from "../../validation/isEmpty";
 
 class CreateProfile extends Component {
   state = {
@@ -36,10 +37,73 @@ class CreateProfile extends Component {
     });
   };
 
+  // after the app mount get all the profile data
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
+      });
+    }
+
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+
+      // Bring skills array and make back to list
+      // const skillsString = profile.skills.join(",");
+      profile.skills = !isEmpty(profile.skills) ?  profile.skills.join(",") : []; 
+
+      // if profile field isn't empty then make the same value
+      // If profile field doesn't exist , make empty string
+      profile.handle = !isEmpty(profile.handle) ? profile.handle : "";
+      profile.company = !isEmpty(profile.company) ? profile.company : "";
+      profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.status = !isEmpty(profile.status) ? profile.status : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+      profile.githubusername = !isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : "";
+
+      // social links
+      profile.social = !isEmpty(profile.social) ? profile.social : {};
+
+      // create social media links fields baseed  => social from getCurrentProfile
+
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebok
+        : "";
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+
+      profile.linkedin = !isEmpty(profile.social.linkedin) ? profile.social.linkedin : "";
+
+
+      this.setState({
+        handle: profile.handle,
+        company: profile.company,
+        location: profile.location,
+        website: profile.website,
+        status: profile.status,
+        skills:profile.skills,
+        githubusername: profile.githubusername,
+        bio: profile.bio,
+        facebook: profile.facebook,
+        youtube: profile.youtube,
+        linkedin: profile.linkedin,
+        twitter: profile.twitter,
+        instagram: profile.instagram
       });
     }
   }
@@ -152,7 +216,7 @@ class CreateProfile extends Component {
                 />
                 <SelectListGroup
                   placeholder="Status"
-                  name="status"
+                  name="stutus"
                   value={this.state.status}
                   onChange={this.onInputChange}
                   options={options}
@@ -238,5 +302,5 @@ const mapStateToProp = state => {
 
 export default connect(
   mapStateToProp,
-  { createProfile }
+  { createProfile, getCurrentProfile }
 )(withRouter(CreateProfile));

@@ -62,7 +62,7 @@ export const logoutUser = () => dispatch => {
   //set currentUser to empty object=>which will set isAuthenticate to false
   dispatch(setCurrentUser({})); 
 
-}
+}; 
 
 
 export const setCurrentUser = (decoded) => {

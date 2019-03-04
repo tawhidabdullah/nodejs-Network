@@ -14,7 +14,10 @@ class Login extends Component {
 
   componentDidMount(){
     if (this.props.auth.isAuthenticate){
-      this.props.history.push('/dashboard')
+      this.props.history.push('/dashboard');
+      // do this when the this file means login components just mounted ,
+      // then check with the help of redux that is authenticated is true
+      // of not if true then =>> give redirect to dashboard 
     }
   }; 
 
@@ -67,7 +70,7 @@ class Login extends Component {
              type="email"
              value={this.state.email}
              onChange={this.onChange}
-             error={errors.email}
+             errors={errors.email}
              />
 
              <TextFeildGroup 
@@ -76,9 +79,8 @@ class Login extends Component {
              type="password"
              value={this.state.password}
              onChange={this.onChange}
-             error={errors.password}
+             errors={errors.password}
              />
-
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </form>
           </div>
