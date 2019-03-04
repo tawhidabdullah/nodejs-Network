@@ -122,6 +122,7 @@ router.post('/', passport.authenticate('jwt' , {session : false}), (req, res) =>
   if(!isValid){
     // REturn any errors with 400 stauts 
     res.status(400).json(errors); 
+    return; 
   }
   // Get fields 
   const profileFields = {};
@@ -151,7 +152,7 @@ router.post('/', passport.authenticate('jwt' , {session : false}), (req, res) =>
   Profile.findOne({user : req.user}).then(profile => {
      // if we have a profile we are gonna update it 
      if(profile){
-      Profile.findOneAndUpdate({user : req.user.id}, {$set:profileFields}, {new : true})
+      Profile.update({user : req.user.id}, {$set:profileFields}, {new : true})  
       .then((profile) => {
         res.json(profile)
       })
@@ -167,11 +168,12 @@ router.post('/', passport.authenticate('jwt' , {session : false}), (req, res) =>
         }
 
         // if the handle is not exist then create a new profile with the given data
-        new Profile(
-          profileFields
-        ).save().then(profile => res.json(profile));
-      })
-       
+        new Profile(profileFields).save()
+        .then(profile => res.json(profile))
+        .catch(err => res.status(404).send('some thing went wrong'))
+         
+      }); 
+    
      }
   })
 

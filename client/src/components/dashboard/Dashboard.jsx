@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Spinner from "../commonFeilds/Spinner";
 
 // import ACTIONS
@@ -9,6 +10,7 @@ class Dashbord extends Component {
   componentDidMount() {
     this.props.getCurrentProfile(); // fired the getCurrentUser action
   }
+
   render() {
     let dashboardContents;
 
@@ -18,7 +20,7 @@ class Dashbord extends Component {
     if (profile === null || loading) {
       dashboardContents = <Spinner />;
     } else {
-      if (Object.create(profile).length > 0) {
+      if (Object.keys(profile).length > 0) {
         //TODO: DISPLAY THE PROFILE
         dashboardContents = <h1>Diplay Profiles</h1>;
       } else {
@@ -26,20 +28,20 @@ class Dashbord extends Component {
           <div>
             <p class="lead text-muted">Wecome {user.name}</p>
             <p>Seems like you have'nt setup you profile, Go and SETUP!</p>
-            <button className="btn btn-lg btn-outline-info">
+            <Link to="/createProfile" className="btn btn-lg btn-outline-info">
               create profile
-            </button>
+            </Link>
           </div>
         );
       }
     }
 
     return (
-      <div class="dashboard">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <h1 class="display-4">DashBoard</h1>
+      <div className="dashboard">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <h1 className="display-4">DashBoard</h1>
               {dashboardContents}
             </div>
           </div>

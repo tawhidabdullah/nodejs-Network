@@ -9,7 +9,7 @@ const initialState = {};
 const errorReducer = (state = initialState,action) => {
   switch(action.type){ 
     case GET_ERRORS: 
-      return  action.payload // payload is going to include =>> errors.response.data; 
+      return action.payload // payload is going to include =>> errors.response.data; 
     default : 
       return state; 
   }
