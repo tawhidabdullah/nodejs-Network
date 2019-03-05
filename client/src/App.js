@@ -47,6 +47,25 @@ import AddExperience from './components/add-credientials/AddExperience';
 import AddEducation from './components/add-credientials/AddEducation';
 
 
+// IMPORT PROFILES 
+import Profiles from './components/profiles/Profiles'; 
+
+
+// IMPORT GETPROFILE BY ID ===>> PROFILE 
+import Profile from './components/profile/Profile'; 
+
+
+// IMPORT POSTS
+import Posts from './components/posts/Posts'; 
+
+
+// IMPORT POST
+import Post from './components/post/Post'; 
+
+
+
+
+
 // IMPORT PRIVATE ROUTE
 import PrivateRoute from './components/commonFeilds/privateRoute'; 
 
@@ -89,6 +108,8 @@ class App extends Component {
           <div className="container">
             <Route exact  path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/profiles" component={Profiles} />
+            <Route exact path="/profile/:handle" component={Profile} />
            <Switch >
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
            </Switch>
@@ -103,6 +124,12 @@ class App extends Component {
             </Switch>
             <Switch >
             <PrivateRoute exact path="/add-education" component={AddEducation} />
+            </Switch>
+            <Switch >
+            <PrivateRoute exact path="/feed" component={Posts} />
+            </Switch>
+            <Switch >
+            <PrivateRoute exact path="/post/:id" component={Post} />
             </Switch>
            </div>
           <Footer />

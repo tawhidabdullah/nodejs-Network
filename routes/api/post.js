@@ -26,7 +26,7 @@ router.get("/test", (req, res) => {
 })
 
 // @route POST /api/posts/
-// @decription  create post
+// @decription  create post  / add post 
 // @access Private
 
 
@@ -53,7 +53,7 @@ router.post('/', passport.authenticate('jwt', {
 
   newPost.save().then(newPost => res.json(newPost));
 
-})
+}); 
 
 
 

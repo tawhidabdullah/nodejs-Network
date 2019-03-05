@@ -20,7 +20,7 @@ class ShowExperience extends Component {
         <td>{exp.title}</td>
         <td>
           <Moment format="YYYY/MM/DD">{exp.from}</Moment>{" "}&rarr;{" "}
-          <Moment format="YYYY/MM/DD">{exp.to}</Moment>
+         {exp.to === null ? ('now') : (<Moment format="YYYY/MM/DD">{exp.to === null ? ('now') : exp.to} </Moment>)} 
         </td>
         <td>
           <button
